@@ -80,7 +80,7 @@ export const SOCIAL_LINKS = [
   {
     id: 4,
     label: "Email",
-    href: "sharmashashwat929@gmail.com",
+    href: "mailto:sharmashashwat929@gmail.com",
     icon: <MdEmail className="text-2xl text-white" />,
   },
   
