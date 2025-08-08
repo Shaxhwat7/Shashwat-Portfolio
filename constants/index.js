@@ -6,7 +6,7 @@ import { MdEmail } from "react-icons/md";
 
 // constants/navigation.js
 export const NAV_ITEMS = [
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/Me" },
   { label: "Work", href: "/#works" },
   { label: "Skills", href: "/#skills" },
   // { href: "#about", label: "About" },
