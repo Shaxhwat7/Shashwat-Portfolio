@@ -1,112 +1,204 @@
+// app/contact/page.js
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import Image4 from "@/public/About.jpg";
+import emailjs from "@emailjs/browser";
+import project1 from "@/public/setup.webp";
 
-const About = () => {
-  const containerRef = useRef(null);
+export default function ContactPage() {
+  const MotionImage = motion(Image);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
+  const [status, setStatus] = useState("");
 
-  const y = useTransform(scrollYProgress, [0, 1], [0, -30]);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setStatus("Sending...");
+
+    emailjs
+      .send(
+        "service_ljwea9e", // Service ID
+        "template_0v8ouco", // Template ID
+        {
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        "fDorMcnXEmQXM2NZB" // Public Key
+      )
+      .then(
+        () => {
+          setStatus("✅ Message sent successfully!");
+          setFormData({ name: "", email: "", subject: "", message: "" });
+        },
+        () => {
+          setStatus("❌ Failed to send message. Try again.");
+        }
+      );
+  };
 
   return (
-    <section
-      id="about"
-      ref={containerRef}
-      className="relative w-full bg-black px-4 pt-16 text-white md:px-8 lg:px-10"
-    >
-      <div className="mx-auto max-w-7xl">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
-          {/* Text Column */}
-          <div className="order-2 lg:order-1 space-y-8">
-            {/* Main Heading */}
-            <motion.h1
-              className="text-4xl font-bold md:text-5xl lg:text-6xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              Hi, I'm Shashwat
-            </motion.h1>
+    <div className="min-h-screen bg-black text-white px-6 py-16">
+      {/* Heading */}
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-6xl font-bold mb-10 text-center"
+      >
+        Let’s Build Something Amazing Together
+      </motion.h1>
 
-            {/* Subheading */}
-            <motion.h2
-              className="text-xl font-medium text-gray-300 md:text-2xl lg:text-3xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              I build things that live on the web
-            </motion.h2>
-
-            {/* Paragraph */}
-            <motion.p
-              className="text-lg leading-relaxed text-gray-300 md:text-xl"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              viewport={{ once: true }}
-            >
-              A dedicated and results-driven Software Engineering student specializing in Cloud Computing. 
-              I'm currently pursuing my Bachelor's in Computer Science and Engineering at Dehradun Institute of Technology (DIT),
-              where I've built a strong academic foundation alongside practical experience in full stack development.
-            </motion.p>
-
-            {/* Button */}
-            {/* <motion.a
-              href="#contact"
-              aria-label="Contact Me"
-              className="inline-block rounded-lg bg-white px-8 py-4 font-semibold text-black transition duration-300 hover:bg-gray-100"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              whileHover={{ scale: 1.02 }}
-              viewport={{ once: true }}
-            >
-              Contact Me
-            </motion.a> */}
-          </div>
-
-          {/* Image Column */}
-          <div className="relative order-1 lg:order-2 h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center">
-            <motion.div
-              style={{ y }}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="relative group"
-            >
-              {/* Subtle shadow */}
-              <div className="absolute -inset-4 bg-white/5 rounded-2xl blur-xl opacity-50" />
-              
-              {/* Image container */}
-              <div className="relative h-80 w-64 md:h-96 md:w-80 lg:h-[450px] lg:w-96 rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src={Image4}
-                  alt="Shashwat - Professional Portrait"
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  priority
+      <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+        {/* Left: Contact Form */}
+        <motion.div
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="bg-[#111] p-8 rounded-xl shadow-lg"
+        >
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Name + Email */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold mb-1">
+                  Name *
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Full Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-3 bg-black border border-gray-700 rounded-md focus:outline-none focus:border-blue-500"
                 />
-                
-                {/* Subtle overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+              <div>
+                <label className="block text-sm font-semibold mb-1">
+                  Email *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-3 bg-black border border-gray-700 rounded-md focus:outline-none focus:border-blue-500"
+                />
+              </div>
+            </div>
 
-export default About;
+            {/* Subject */}
+            <div>
+              <label className="block text-sm font-semibold mb-1">
+                Subject
+              </label>
+              <input
+                type="text"
+                name="subject"
+                placeholder="What's this about?"
+                value={formData.subject}
+                onChange={handleChange}
+                className="w-full p-3 bg-black border border-gray-700 rounded-md focus:outline-none focus:border-blue-500"
+              />
+            </div>
+
+            {/* Message */}
+            <div>
+              <label className="block text-sm font-semibold mb-1">
+                Message *
+              </label>
+              <textarea
+                name="message"
+                placeholder="Tell us about your project or inquiry"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                className="w-full p-3 bg-black border border-gray-700 rounded-md focus:outline-none focus:border-blue-500"
+                rows="5"
+              ></textarea>
+            </div>
+
+            {/* Status Message */}
+            {status && (
+              <p
+                className={`text-sm ${
+                  status.includes("✅") ? "text-green-400" : "text-red-400"
+                }`}
+              >
+                {status}
+              </p>
+            )}
+
+            {/* Submit Button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              type="submit"
+              className="w-full bg-white text-black font-semibold py-3 rounded-md hover:bg-gray-300 transition"
+            >
+              Send Message
+            </motion.button>
+          </form>
+        </motion.div>
+
+        {/* Right: Image + Contact Info */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <MotionImage
+            src={project1}
+            alt="Contact"
+            className="rounded-xl mb-6"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            priority
+          />
+
+          {/* Contact Info Cards */}
+          <div className="space-y-4">
+            {[
+              { icon: "📧", title: "Email Me", text: "sharmashashwat929@gmail.com" },
+              {
+                icon: "⏳",
+                title: "Response Time",
+                text: "Usually within 24 hours.",
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={item.title}
+                className="bg-[#111] p-4 rounded-lg flex items-center gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 + index * 0.2, duration: 0.5 }}
+              >
+                <span className="text-xl">{item.icon}</span>
+                <div>
+                  <p className="font-semibold">{item.title}</p>
+                  <p className="text-gray-400">{item.text}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}

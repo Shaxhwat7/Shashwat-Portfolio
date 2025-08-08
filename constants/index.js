@@ -16,7 +16,7 @@ export const NAV_ITEMS = [
   // { href: "#contact", label: "Contact" },
 ];
 
-export const BRAND_NAME = "Swayam";
+export const BRAND_NAME = "Shaswat";
 
 export const PROJECTS = [
   {

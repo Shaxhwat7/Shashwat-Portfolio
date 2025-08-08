@@ -12,11 +12,11 @@ export default function Home() {
     <>
       <Hero />
       <ScrollingText />
-      {/* <About /> */}
       <Projects />
       <Skills />
       <ScrollingText />
       <Highlights />
+      <About />
       <ScrollingText />
       <Footer />
     </>
