@@ -23,12 +23,14 @@ const Navbar = () => {
         </Link>
 
         <div className="flex items-center gap-4">
-          {/* ✅ Animated About Button */}
+          {/* ✅ About Me with animated underline */}
           <a
             href="/Me"
-            className="hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 transition-transform duration-300 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black"
+            className="relative hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium text-white bg-black
+                       after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px]
+                       after:bg-white after:transition-all after:duration-300 hover:after:w-full"
           >
-            About Me
+            About
           </a>
         </div>
       </div>
