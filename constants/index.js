@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 // constants/navigation.js
 export const NAV_ITEMS = [
   { label: "About", href: "/#about" },
-  { label: "Work", href: "/#projects" },
+  { label: "Work", href: "/#works" },
   { label: "Skills", href: "/#skills" },
   // { href: "#about", label: "About" },
   // { href: "#highlights", label: "Highlights" },
@@ -78,7 +78,7 @@ export const SOCIAL_LINKS = [
 },
   
   {
-    id: 4,
+      id: 4,
     label: "Email",
     href: "mailto:sharmashashwat929@gmail.com",
     icon: <MdEmail className="text-2xl text-white" />,
